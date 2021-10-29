@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/pontuacao.xhtml">
+    
+        <!--
+    <h:head>
+        <title>Cadastrar Docente - Sistema de Pontuação Docente</title>
+    </h:head>
+    <h:body>
+        -->
+        <!--<p:layout fullPage="true">-->
+        <ui:define name="centro">
+        <p:layoutUnit position="center">
+        <h:form>
+            <p:messages />
+            Insira os dados do docente<br/><br/>
+            <p:panel header="Forneça os seus dados:">
+                <p:panelGrid columns="2" id="cadDoc">
+                    <p:outputLabel for="nome" value="Nome" />
+                    <p:inputText id="nome" label="Nome"
+                                 value="#{docenteControlador.docenteSendoIncluido.nome}"
+                                 required="true" size="50" />
+                    <p:outputLabel for="rg" value="RG" />
+                    <p:inputText id="rg" label="RG"
+                                 value="#{docenteControlador.docenteSendoIncluido.RG}"
+                                 required="true" size="30" />
+                    <p:outputLabel for="area" value="Área" />
+                    <p:inputText id="area" label="Área"
+                                 value="#{docenteControlador.docenteSendoIncluido.area}"
+                                 required="true" size="50" />
+                    <p:outputLabel for="prazo" value="Prazo" />
+                    <p:inputText id="prazo" label="Prazo"
+                                 value="#{docenteControlador.docenteSendoIncluido.prazoContrato}"
+                                 required="true" size="15" />
+                    <p:outputLabel for="formacao" value="Formação" />
+                    <p:inputText id="formacao" label="Nível de Formação"
+                                 value="#{docenteControlador.docenteSendoIncluido.formacao}"
+                                 required="true" size="50" />
+                    <p:outputLabel for="numetec" value="Etec" />
+                    <p:inputText id="numetec" label="Etec"
+                                 value="#{login.docenteLogado.numetec}"
+                                 size="5" disabled="#{!login.admin}" />
+                    <p:outputLabel for="email" value="E-mail" />
+                    <p:inputText id="email" label="E-mail"
+                                 value="#{docenteControlador.docenteSendoIncluido.email}"
+                                 required="true" size="50" />
+                    <p:outputLabel for="senha" value="Senha" />
+                            <p:password id="senha"
+                                        value="#{docenteControlador.docenteSendoIncluido.senha}"
+                                        match="senha2"
+                                        promptLabel="Senha com pelo menos 6 caracteres"
+                                        weakLabel="Senha fraca"
+                                        goodLabel="Senha razoável"
+                                        strongLabel="Senha forte!"
+                                        feedback="true"
+                                        required="true"/>
+                    <p:outputLabel for="senha2" value="Confirmar Senha" />
+                            <p:password id="senha2"
+                                        value="#{docenteControlador.docenteSendoIncluido.senha}"
+                                        label="Confirmar Senha"
+                                        required="true"
+                                        />
+                    
+                    <p:commandButton value="Enviar dados"
+                                     ajax="false"
+                                     update="cadDoc" 
+                                     action="#{docenteControlador.criarDocente()}" /> 
+                    
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+        </p:layoutUnit>
+        </ui:define>
+        <!--</p:layout>-->
+    <!--</h:body>-->
+    </ui:composition>
+</html>
+

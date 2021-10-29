@@ -1,0 +1,571 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/pontuacao.xhtml">
+    
+        <!--
+    <h:head>
+        <title>Cadastrar Docente - Sistema de Pontuação Docente</title>
+    </h:head>
+    <h:body>
+        -->
+        <!--<p:layout fullPage="true">-->
+        <ui:define name="centro">
+        <p:layoutUnit position="center">
+            
+            <h:form>
+                <p:dialog id="escolherDocente" header="Selecionar Docente" widgetVar="dlg1" visible="true" closable="false" resizable="false" maximizable="false" modal="true" appendToBody="true">
+                
+                <h:outputText value="Selecione o docente a ser computada a pontuação:"/><br/><br/>
+                <p:selectOneMenu id="docenteSelecionado" label="Nome" effect="fade" value="docenteSelec">
+                    <f:selectItem itemLabel="Selecione um docente"/>
+                    <f:selectItems value="#{docenteControlador.listagemDeDocentes()}" var="player" itemLabel="#{player.nome}" itemValue="#{player}"/> 
+                </p:selectOneMenu>
+                <br/><br/>
+                <p:commandButton value="OK" oncomplete="dlg1.hide()" update="panelDocente"/>
+                
+            </p:dialog>
+                <p:panel id="panelDocente" header="Docente">
+                    <h:panelGrid columns="2">
+                        <p:graphicImage url="/images/semfoto.jpg" width="100"/>
+				<h:panelGrid id="docente" columns="2">
+                                    
+					<h:outputText value="Nome: " />
+					<h:outputText styleClass="outputLabel"
+                                                      value="#{player.nome}" />
+					
+					<h:outputText value="Área " />
+					<h:outputText  styleClass="outputLabel"
+                                                       value="#{player.area}"/>
+					
+					<h:outputText value="Formação: " />
+					<h:outputText styleClass="outputLabel"
+                                                      value="#{player.formacao}" />
+					
+					<h:outputText value="Email: " />
+					<h:outputText styleClass="outputLabel"
+                                                      value="#{player.email}" />
+					
+					<h:outputText value="Etec: " />
+					<h:outputText styleClass="outputLabel"
+                                                      value="#{player.numetec}" />
+					
+					<h:outputText />
+					<h:outputText />
+				</h:panelGrid>
+                    </h:panelGrid>
+			
+            </p:panel>
+            </h:form>
+            <br/>
+            Forneça os dados da pontuação:
+            
+            <h:form id="FormPontuacao">
+            <p:messages />
+            <p>
+            <!--onchange="select($(this));"-->
+            <p:panel header="Grupo 1 - Titulação / Atualização">
+                <h:panelGrid columns="3" id="cadTitulacao">
+                    <p:outputLabel for="magisterio" value="Técnico de  Nível Médio; Magistério" />
+                    <p:selectOneMenu id="magisterio" label="Técnico de  Nível Médio; Magistério" 
+                                     value="#{pontuacaoChange.campo}"
+                                 required="true" >
+                                 <f:selectItem itemLabel="Selecione a opção" itemValue="" />
+                                 <f:selectItems value="#{pontuacaoChange.magisterioOpcoes}"/>
+                                 <p:ajax update="magisterio_total" listener="#{pontuacaoChange.magisterioChange()}"/>
+                    </p:selectOneMenu>
+                    
+                    <p:inputText id="magisterio_total" value="#{pontuacaoChange.result}" readonly="true"/>
+                    <p:outputLabel for="licenci_gradu" value="Licenciatura Plena ou Equivalente/Graduação" />
+                    <p:selectOneMenu id="licenci_gradu" label="Licenciatura Plena ou Equivalente/Graduação"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.licenci_gradu}"
+                                 required="true">
+                                 <f:selectItem itemLabel="Nenhuma" itemValue="" />
+                                 <f:selectItem itemLabel="Licenciatura" itemValue="Licenciatura" />
+                                 <f:selectItem itemLabel="Graduação" itemValue="Graduação" />
+                    </p:selectOneMenu>
+                    <p:inputText id="licenci_gradu_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.licenci_gradu}" readonly="true"/>
+                    <p:outputLabel for="pedagogia" value="Pedagogia" />
+                    <p:selectOneMenu id="pedagogia" label="Pedagogia"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.pedagogia}"
+                                 required="true">
+                                 <f:selectItem itemLabel="Selecione a opção" itemValue="" />
+                                 <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                                 <f:selectItem itemLabel="Não" itemValue="Não" />
+                    </p:selectOneMenu>
+                    <p:inputText id="pedagogia_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.pedagogia}" readonly="true"/>
+                    <p:outputLabel for="pos_grad" value="Pós-Graduação 'Lato Sensu'. Aperfeiçoamento e/ ou Especialização" />
+                    <p:selectOneMenu id="pos_grad" label="Pós-Graduação 'Lato Sensu'. Aperfeiçoamento e/ ou Especialização"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.pos_grad}"
+                                 required="true">
+                                 <f:selectItem itemLabel="Selecione a opção" itemValue="" />
+                                 <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                                 <f:selectItem itemLabel="Não" itemValue="Não" />
+                    </p:selectOneMenu>
+                    <p:inputText id="pos_grad_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.pos_grad}" readonly="true"/>
+                    <p:outputLabel for="mestrado" value="Mestrado" />
+                    <p:selectOneMenu id="mestrado" label="Mestrado"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.mestrado}"
+                                 required="true">
+                                 <f:selectItem itemLabel="Selecione a opção" itemValue="" />
+                                 <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                                 <f:selectItem itemLabel="Não" itemValue="Não" />
+                    </p:selectOneMenu>
+                    <p:inputText id="mestrado_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.mestrado}" readonly="true"/>
+                    <p:outputLabel for="doutorado" value="Doutorado" />
+                    <p:selectOneMenu id="doutorado" label="Doutorado"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.doutorado}"
+                                 required="true">
+                                 <f:selectItem itemLabel="Selecione a opção" itemValue="" />
+                                 <f:selectItem itemLabel="Sim" itemValue="Sim" />
+                                 <f:selectItem itemLabel="Não" itemValue="Não" />
+                    </p:selectOneMenu>
+                    <p:inputText id="doutorado_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.doutorado}" readonly="true"/>
+                    <p:outputLabel for="treinamento" value="Treinamento" />
+                    <p:inputText id="treinamento" label="Treinamento"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.treinamento}"
+                                 required="true" size="18" 
+                                 />
+                    <p:inputText id="treinamento_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.treinamento}" readonly="true"/>
+                    <p:outputLabel for="semin_congressos" value="Seminário, Congressos e Simpósios" />
+                    <p:inputText id="semin_congressos" label="Seminário, Congressos e Simpósios"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.semin_congressos}"
+                                 required="true" size="18" />
+                    <p:inputText id="semin_congressos_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.semin_congressos}" readonly="true"/>
+                    <p:outputLabel for="grupo1_subtotal" value="Subtotal"/>
+                    --------------------------------------------------------
+                    <p:inputText id="grupo1_subtotal" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.grupo1_subtotal}" readonly="true"/>
+                </h:panelGrid>
+            </p:panel>
+                <!--tooltips para todos os campos do grupo 1-->
+                <p:tooltip for="magisterio" value="Se o docente possuir magistério (5 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="licenci_gradu" value="Aos portadores de Licenciatura Plena ou equivalente nos componentes em que ministra aulas (15 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="pedagogia" value="Para o portador de diploma de Licenciatura Plena em Pedagogia (5 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="pos_grad" value="No eixo ou na área de Educação, com carga horária mínima de 360 horas (9 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="mestrado" value="Somente serão aceitos os diplomas, certificados expedidos por instituições reconhecidas pelo Ministério da Educação (12 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="doutorado" value="Somente serão aceitos os diplomas, certificados expedidos por instituições reconhecidas pelo Ministério da Educação (15 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="treinamento" value="Valor em horas (horas * 0,02 pontos - não excedendo 15 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="semin_congressos" value="Valor em horas (horas * 0,01 - onde não constar a carga horária)" showEffect="fade" hideEffect="fade" />
+            </p>
+            <p>
+                <p:panel header="Grupo 2 - Produção Acadêmica">
+                <p:panelGrid columns="3" id="cadProdAcademica">
+                    <p:outputLabel for="livro" value="Livro" />
+                    <p:selectOneMenu id="livro" label="Livro"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.livro}"
+                                 required="true">
+                                 <f:selectItem itemLabel="0" itemValue="0" />
+                                 <f:selectItem itemLabel="1" itemValue="1" />
+                                 <f:selectItem itemLabel="2" itemValue="2" />
+                                 <f:selectItem itemLabel="3" itemValue="3" />
+                                 <f:selectItem itemLabel="4" itemValue="4" />
+                    </p:selectOneMenu>
+                    <p:inputText id="livro_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.livro}" readonly="true"/>
+                    <p:outputLabel for="apostila" value="Apostila" />
+                    <p:selectOneMenu id="apostila" label="Apostila"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.apostila}"
+                                 required="true">
+                                 <f:selectItem itemLabel="0" itemValue="0" />
+                                 <f:selectItem itemLabel="1" itemValue="1" />
+                                 <f:selectItem itemLabel="2" itemValue="2" />
+                                 <f:selectItem itemLabel="3" itemValue="3" />
+                                 <f:selectItem itemLabel="4" itemValue="4" />
+                                 <f:selectItem itemLabel="5" itemValue="5" />
+                                 <f:selectItem itemLabel="6" itemValue="6" />
+                    </p:selectOneMenu>
+                    <p:inputText id="apostila_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.apostila}" readonly="true"/>
+                    <p:outputLabel for="pesq_cientifica" value="Trabalho de pesquisa científica" />
+                    <p:selectOneMenu id="pesq_cientifica" label="Trabalho de pesquisa científica"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.pesq_cientifica}"
+                                 required="true">
+                                 <f:selectItem itemLabel="0" itemValue="0" />
+                                 <f:selectItem itemLabel="1" itemValue="1" />
+                                 <f:selectItem itemLabel="2" itemValue="2" />
+                                 <f:selectItem itemLabel="3" itemValue="3" />
+                    </p:selectOneMenu>
+                    <p:inputText id="pesq_cientifica_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.pesq_cientifica}" readonly="true"/>
+                    <p:outputLabel for="ensaios_artigos" value="Ensaios e artigos publicados" />
+                    <p:selectOneMenu id="ensaios_artigos" label="Ensaios e artigos publicados"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.ensaios_artigos}"
+                                 required="true">
+                                 <f:selectItem itemLabel="0" itemValue="0" />
+                                 <f:selectItem itemLabel="1" itemValue="1" />
+                                 <f:selectItem itemLabel="2" itemValue="2" />
+                                 <f:selectItem itemLabel="3" itemValue="3" />
+                                 <f:selectItem itemLabel="4" itemValue="4" />
+                                 <f:selectItem itemLabel="5" itemValue="5" />
+                                 <f:selectItem itemLabel="6" itemValue="6" />
+                    </p:selectOneMenu>
+                    <p:inputText id="ensaios_artigos_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.ensaios_artigos}" readonly="true"/>
+                    <p:outputLabel for="trabalhos_seminarios" value="Apresentação de trabalhos, Congressos/Simpósios/Seminários/Encontros" />
+                    <p:selectOneMenu id="trabalhos_seminarios" label="Apresentação de trabalhos, Congressos/Simpósios/Seminários/Encontros"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.trabalhos_seminarios}"
+                                 required="true">
+                                 <f:selectItem itemLabel="0" itemValue="0" />
+                                 <f:selectItem itemLabel="1" itemValue="1" />
+                                 <f:selectItem itemLabel="2" itemValue="2" />
+                                 <f:selectItem itemLabel="3" itemValue="3" />
+                                 <f:selectItem itemLabel="4" itemValue="4" />
+                                 <f:selectItem itemLabel="5" itemValue="5" />
+                                 <f:selectItem itemLabel="6" itemValue="6" /> 
+                                 <f:selectItem itemLabel="7" itemValue="7" />
+                                 <f:selectItem itemLabel="8" itemValue="8" />
+                    </p:selectOneMenu>
+                    <p:inputText id="trabalhos_seminarios_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.trabalhos_seminarios}" readonly="true"/>
+                    <p:outputLabel for="cursos" value="Cursos ministrados" />
+                    <p:selectOneMenu id="cursos" label="Cursos ministrados"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.cursos}"
+                                 required="true">
+                                 <f:selectItem itemLabel="0" itemValue="0" />
+                                 <f:selectItem itemLabel="1" itemValue="1" />
+                                 <f:selectItem itemLabel="2" itemValue="2" />
+                                 <f:selectItem itemLabel="3" itemValue="3" />
+                    </p:selectOneMenu>
+                    <p:inputText id="cursos_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.cursos}" readonly="true"/>
+                    <p:outputLabel for="palestras" value="Palestras/mini cursos" />
+                    <p:selectOneMenu id="palestras" label="Palestras/mini cursos"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.palestras}"
+                                 required="true">
+                                 <f:selectItem itemLabel="0" itemValue="0" />
+                                 <f:selectItem itemLabel="1" itemValue="1" />
+                                 <f:selectItem itemLabel="2" itemValue="2" />
+                                 <f:selectItem itemLabel="3" itemValue="3" />
+                                 <f:selectItem itemLabel="4" itemValue="4" />
+                                 <f:selectItem itemLabel="5" itemValue="5" />
+                                 <f:selectItem itemLabel="6" itemValue="6" /> 
+                                 <f:selectItem itemLabel="7" itemValue="7" />
+                                 <f:selectItem itemLabel="8" itemValue="8" />
+                                 <f:selectItem itemLabel="9" itemValue="9" />
+                                 <f:selectItem itemLabel="10" itemValue="10" />
+                    </p:selectOneMenu>
+                    <p:inputText id="palestras_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.palestras}" readonly="true"/>
+                    <p:outputLabel for="orientacao_tcc" value="Orientação de Trabalho de Conclusão de Curso" />
+                    <p:selectOneMenu id="orientacao_tcc" label="Orientação de Trabalho de Conclusão de Curso"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.orientacao_tcc}"
+                                 required="true">
+                                 <f:selectItem itemLabel="0" itemValue="0" />
+                                 <f:selectItem itemLabel="1" itemValue="1" />
+                                 <f:selectItem itemLabel="2" itemValue="2" />
+                                 <f:selectItem itemLabel="3" itemValue="3" />
+                                 <f:selectItem itemLabel="4" itemValue="4" />
+                    </p:selectOneMenu>
+                    <p:inputText id="orientacao_tcc_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.orientacao_tcc}" readonly="true"/>
+                    <p:outputLabel for="grupo2_subtotal" value="Subtotal"/>
+                    --------------------------------------------------------
+                    <p:inputText id="grupo2_subtotal" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.grupo2_subtotal}" readonly="true"/>
+                </p:panelGrid>
+                </p:panel>
+                <!--tooltips para todos os campos do grupo 2-->
+                <p:tooltip for="livro" value="Livros que foram executados e publicados por empresa habilitada ou por Instituição de Ensino (4 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="apostila" value="Apostilas que foram executados e publicados por empresa habilitada ou por Instituição de Ensino (1 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="pesq_cientifica" value="Desde que executado e publicado por empresa habilitada ou por Instituição de Ensino (2 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="ensaios_artigos" value="Publicados em periódicos e coletâneas que tratam de assuntos especializados (0,5 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="trabalhos_seminarios" value="Apresentação de trabalhos em congressos, simpósios, seminários, encontros, etc. (1 ponto)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="cursos" value="Que não façam parte de programas regulares das instituições promotoras dos eventos. (2 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="palestras" value="Com carga horária inferior a trinta horas. (0,5 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="orientacao_tcc" value="Deverão ser expedidos pelas instituições promotoras dos eventos com os cursos devidamente regulamentados. (0,5 pontos)" showEffect="fade" hideEffect="fade" />
+            </p>
+            <p>
+                <p:panel header="Grupo 3 - Experiência Profissional">
+                <p:panelGrid columns="3" id="cadExperiencia">
+                    <p:outputLabel for="tempo_ceeteps" value="Tempo de atuação no CEETEPS" />
+                    <p:inputText id="tempo_ceeteps" label="Tempo de atuação no CEETEPS"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.tempo_ceeteps}"
+                                 required="true" size="18" />
+                    <p:inputText id="tempo_ceeteps_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.tempo_ceeteps}" readonly="true"/>
+                    <p:outputLabel for="tempo_ue" value="Tempo de atuação na U.E." />
+                    <p:inputText id="tempo_ue" label="Tempo de atuação na U.E."
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.tempo_ue}"
+                                 required="true" size="18" />
+                    <p:inputText id="tempo_ue_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.tempo_ue}" readonly="true"/>
+                    <p:outputLabel for="diretor_super" value="Diretor Superintendente" />
+                    <p:inputText id="diretor_super" label="Diretor Superintendente"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.diretor_super}"
+                                 required="true" size="18" />
+                    <p:inputText id="diretor_super_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.diretor_super}" readonly="true"/>
+                    <p:outputLabel for="vice_diretor_super" value="Vice-Diretor Superintendente" />
+                    <p:inputText id="vice_diretor_super" label="Vice-Diretor Superintendente"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.vice_diretor_super}"
+                                 required="true" size="18" />
+                    <p:inputText id="vice_diretor_super_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.vice_diretor_super}" readonly="true"/>
+                    <p:outputLabel for="chefe_gabinete" value="Chefe de Gabinete" />
+                    <p:inputText id="chefe_gabinete" label="Chefe de Gabinete"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.chefe_gabinete}"
+                                 required="true" size="18" />
+                    <p:inputText id="chefe_gabinete_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.chefe_gabinete}" readonly="true"/>
+                    <p:outputLabel for="coord_cetec" value="Coordenador da CETEC" />
+                    <p:inputText id="coord_cetec" label="Coordenador da CETEC"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.coord_cetec}"
+                                 required="true" size="18" />
+                    <p:inputText id="coor_cetec_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.coord_cetec}" readonly="true"/>
+                    <p:outputLabel for="diretor_ue" value="Diretor da  U.E." />
+                    <p:inputText id="diretor_ue" label="Diretor da U.E."
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.diretor_ue}"
+                                 required="true" size="18" />
+                    <p:inputText id="diretor_ue_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.diretor_ue}" readonly="true"/>
+                    <p:outputLabel for="diretor_acad" value="Diretor Acadêmico" />
+                    <p:inputText id="diretor_acad" label="Diretor Acadêmico"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.diretor_acad}"
+                                 required="true" size="18" />
+                    <p:inputText id="diretor_acad_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.diretor_acad}" readonly="true"/>
+                    <p:outputLabel for="atd_dirservico" value="ATD I e Diretor de Serviço" />
+                    <p:inputText id="atd_dirservico" label="ATD I e Diretor de Serviço"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.atd_dirservico}"
+                                 required="true" size="18" />
+                    <p:inputText id="atd_dirservico_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.atd_dirservico}" readonly="true"/>
+                    <p:outputLabel for="prd_acetec" value="PRD/A-CETEC" />
+                    <p:inputText id="prd_acetec" label="PRD/A-CETEC"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.prd_acetec}"
+                                 required="true" size="18" />
+                    <p:inputText id="prd_acetec_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.prd_acetec}" readonly="true"/>
+                    <p:outputLabel for="resp_projinstitucional" value="Responsável - Projetos Institucionais - CETEC" />
+                    <p:inputText id="resp_projinstitucional" label="Responsável - Projetos Institucionais - CETEC"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.resp_projinstitucional}"
+                                 required="true" size="18" />
+                    <p:inputText id="resp_projinstitucional_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.resp_projinstitucional}" readonly="true"/>
+                    <p:outputLabel for="coord_area" value="Coordenador de Área" />
+                    <p:inputText id="coord_area" label="Coordenador de Área"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.coord_area}"
+                                 required="true" size="18" />
+                    <p:inputText id="coord_area_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.coord_area}" readonly="true"/>
+                    <p:outputLabel for="superv_estagio" value="Supervisor de Estágio" />
+                    <p:inputText id="superv_estagio" label="Supervisor de Estágio"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.superv_estagio}"
+                                 required="true" size="18" />
+                    <p:inputText id="superv_estagio_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.superv_estagio}" readonly="true"/>
+                    <p:outputLabel for="resp_projetosue" value="Responsável - Projetos Institucionais - U.E." />
+                    <p:inputText id="resp_projetosue" label="Responsável - Projetos Institucionais - U.E."
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.resp_projetosue}"
+                                 required="true" size="18" />
+                    <p:inputText id="resp_projetosue_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.resp_projetosue}" readonly="true"/>
+                    <p:outputLabel for="pontosacumulados" value="Pontos Acumulados" />
+                    <p:inputText id="pontosacumulados" label="Pontos Acumulados"
+                                 value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.pontosacumulados}"
+                                 required="true" size="18" />
+                    --------------------------------------------------------
+                    <p:outputLabel for="anoant2_mes" value="Ano anterior - 2º semestre - meses" />
+                    <p:inputText id="anoant2_mes" label="Ano anterior - 2º semestre - meses"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.anoant2}"
+                                 required="true" size="18" />
+                    
+                    --------------------------------------------------------
+                    <p:outputLabel for="anoatu1_mes" value="Ano atual - 1º semestre - meses" />
+                    <p:inputText id="anoatu1_mes" label="Ano atual - 1º semestre - meses"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.anoatu1}"
+                                 required="true" size="18" />
+                    
+                    --------------------------------------------------------
+                    <p:outputLabel for="anoatu2_mes" value="Ano atual - 2º semestre - meses" />
+                    <p:inputText id="anoatu2_mes" label="Ano atual - 2º semestre - meses"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.anoatu2}"
+                                 required="true" size="18" />
+                    
+                    --------------------------------------------------------
+                    <p:outputLabel for="aulasant2" value="Ano anterior - 2º semestre - aulas" />
+                    <p:inputText id="aulasant2" label="Ano anterior - 2º semestre - aulas"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.aulasant2}"
+                                 required="true" size="18" />
+                    
+                    <p:inputText id="aulasant2_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.anoant2_total}" readonly="true"/>
+                    <p:outputLabel for="aulasatu1" value="Ano atual - 1º semestre - aulas" />
+                    <p:inputText id="aulasatu1" label="Ano atual - 1º semestre - aulas"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.aulasatu1}"
+                                 required="true" size="18" />
+                    
+                    <p:inputText id="aulasatu1_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.anoatu1_total}" readonly="true"/>
+                    <p:outputLabel for="aulasatu2" value="Ano atual - 2º semestre - aulas" />
+                    <p:inputText id="aulasatu2" label="Ano atual - 2º semestre - aulas"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.aulasatu2}"
+                                 required="true" size="18" />
+                    
+                    <p:inputText id="aulasatu2_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.anoatu2_total}" readonly="true"/>
+                    
+                    <p:outputLabel for="semestres_total" value="Total Semestral"/>
+                    <p:inputText id="semestres_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.total_semestres}" readonly="true"/>
+                    --------------------------------------------------------
+                    <p:outputLabel for="atdocente_total" value="Atividade Docente - Subtotal"/>
+                    --------------------------------------------------------
+                    <p:inputText id="atdocente_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.atdocente_total}" readonly="true"/>
+                    <p:outputLabel for="sindicancia_ue" value="Comissões de sindicâncias - U.E." />
+                    <p:inputText id="sindicancia_ue" label="Comissões de sindicâncias - U.E."
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.sindicancia_ue}"
+                                 required="true" size="18" />
+                    --------------------------------------------------------
+                    <p:outputLabel for="sindicancia_ceeteps" value="Comissões de sindicâncias - CEETEPS" />
+                    <p:inputText id="sindicancia_ceeteps" label="Comissões de sindicâncias - CEETEPS"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.sindicancia_ceeteps}"
+                                 required="true" size="18" />
+                    <p:inputText id="sindicancia_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.sindicancia}" readonly="true"/>
+                    <p:outputLabel for="bancas_avmerito_ue" value="Bancas de cursos de docentes / avaliação de mérito / Comissão de Avaliação de Processo Seletivo Docente - U.E." />
+                    <p:inputText id="bancas_avmerito_ue" label="Bancas de cursos de docentes / avaliação de mérito / Comissão de Avaliação de Processo Seletivo Docente - U.E."
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.bancas_avmerito_ue}"
+                                 required="true" size="18" />
+                    --------------------------------------------------------
+                    <p:outputLabel for="bancas_avmerito_ceeteps" value="Bancas de cursos de docentes / avaliação de mérito / Comissão de Avaliação de Processo Seletivo Docente - CEETEPS" />
+                    <p:inputText id="bancas_avmerito_ceeteps" label="Bancas de cursos de docentes / avaliação de mérito / Comissão de Avaliação de Processo Seletivo Docente - CEETEPS"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.bancas_avmerito_ceeteps}"
+                                 required="true" size="18" />
+                    <p:inputText id="bancas_avmerito_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.bancas_avmerito}" readonly="true"/>
+                    <p:outputLabel for="com_trabalho_ue" value="Comissões de trabalho / Laboratórios de Currículo - U.E." />
+                    <p:inputText id="com_trabalho_ue" label="Comissões de trabalho / Laboratórios de Currículo - U.E."
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.com_trabalho_ue}"
+                                 required="true" size="18" />
+                    --------------------------------------------------------
+                    <p:outputLabel for="com_trabalho_ceeteps" value="Comissões de trabalho / Laboratórios de Currículo - CEETEPS" />
+                    <p:inputText id="com_trabalho_ceeteps" label="Comissões de trabalho / Laboratórios de Currículo - CEETEPS"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.com_trabalho_ceeteps}"
+                                 required="true" size="18" />
+                    <p:inputText id="com_trabalho_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.com_trabalho}" readonly="true"/>
+                    <p:outputLabel for="conselho_escola" value="Conselho de Escola" />
+                    <p:inputText id="conselho_escola" label="Conselho de Escola"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.conselho_escola}"
+                                 required="true" size="18" />
+                    <p:inputText id="conselho_escola_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.conselho_escola}" readonly="true"/>
+                    <p:outputLabel for="cipa" value="CIPA" />
+                    <p:inputText id="cipa" label="CIPA"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.cipa}"
+                                 required="true" size="18" />
+                    <p:inputText id="cipa_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.cipa}" readonly="true"/>
+                    <p:outputLabel for="apm" value="APM" />
+                    <p:inputText id="apm" label="APM"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.apm}"
+                                 required="true" size="18" />
+                    <p:inputText id="apm_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.apm}" readonly="true"/>
+                    <p:outputLabel for="grupo3_subtotal" value="Subtotal"/>
+                    --------------------------------------------------------
+                    <p:inputText id="grupo3_subtotal" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.grupo3_subtotal}" readonly="true"/>
+                </p:panelGrid>
+            </p:panel>
+                <!--tooltips para todos os campos do grupo 3-->
+                <p:tooltip for="tempo_ceeteps" value="0,1 ponto por mês completo, máximo de 30 pontos" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="tempo_ue" value="0,05 ponto para cada mês completo, máximo de 15 pontos " showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="diretor_super" value="Número de meses completos que o docente ocupou o cargo desde 01/01/1994 (0,6 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="vice_diretor_super" value="Número de meses completos que o docente ocupou o cargo desde 01/01/1994 (0,6 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="chefe_gabinete" value="Número de meses completos que o docente ocupou o cargo desde 01/01/1994 (0,6 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="coord_cetec" value="Número de meses completos que o docente ocupou o cargo desde 01/01/1994 (0,6 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="diretor_ue" value="Número de meses completos que o docente ocupou o cargo desde 01/01/1994 (0,5 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="diretor_acad" value="Número de meses completos que o docente ocupou o cargo desde 01/01/1994 (0,5 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="atd_dirservico" value="Número de meses completos que o docente ocupou o cargo desde 01/01/1994 (0,4 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="prd_acetec" value="Número de meses completos que o docente ocupou o cargo desde 01/01/1994 (0,3 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="resp_projinstitucional" value="Número de meses completos que o docente ocupou o cargo desde 01/01/1994 (0,3 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="coord_area" value="Número de meses completos que o docente ocupou o cargo desde 01/01/1994 (0,25 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="superv_estagio" value="Número de meses completos que o docente ocupou o cargo desde 01/01/1994 (0,1 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="resp_projetosue" value="Número de meses completos que o docente ocupou o cargo desde 01/01/1994 (0,1 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="pontosacumulados" value="Pontos acumulados" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="anoant2_mes" value="Meses de aula do 2º semestre do ano anterior ao que está sendo feita a pontuação" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="anoatu1_mes" value="Meses de aula do 1º semestre do ano que está sendo feita a pontuação " showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="anoatu2_mes" value="Meses de aula do 2º semestre do ano que está sendo feita a pontuação" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="aulasant2" value="Número de aulas dadas no 2º semestre do ano anterior ao que está sendo feita a pontuação" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="aulasatu1" value="Número de aulas dadas no 1º semestre do ano que está sendo feita a pontuação" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="aulasatu2" value="Número de aulas dadas no 2º semestre do ano que está sendo feita a pontuação" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="sindicancia_ue" value="Referente aos últimos 5 anos, e devem ser comprovadas. (1 ponto)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="sindicancia_ceeteps" value="Referente aos últimos 5 anos, e devem ser comprovadas. (2 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="bancas_avmerito_ue" value="Referente aos últimos 5 anos, e devem ser comprovadas. (0,25 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="bancas_avmerito_ceeteps" value="Referente aos últimos 5 anos, e devem ser comprovadas. (0,5 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="com_trabalho_ue" value="Referente aos últimos 5 anos, e devem ser comprovadas. (0,5 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="com_trabalho_ceeteps" value="Referente aos últimos 5 anos, e devem ser comprovadas. (1 ponto)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="conselho_escola" value="Referente aos últimos 5 anos, e devem ser comprovadas. (0,5 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="cipa" value="Referente aos últimos 5 anos, e devem ser comprovadas. (0,5 pontos)" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="apm" value="Referente aos últimos 5 anos, e devem ser comprovadas. (0,5 pontos)" showEffect="fade" hideEffect="fade" />
+            </p>
+            <p>
+                    
+            <p:panel header="Grupo 4 - Assisuidade / Pontualidade">
+                <p:panelGrid columns="3" id="cadAssiduidade">
+                    <p:outputLabel for="carga_horaria" value="Assiduidade - Carga horária" />
+                    <p:inputText id="carga_horaria" label="Assiduidade - Carga horária"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.carga_horaria}"
+                                 required="true" size="18" />
+                    --------------------------------------------------------
+                    <p:outputLabel for="faltas" value="Assiduidade - Nº de faltas" />
+                    <p:inputText id="faltas" label="Assiduidade - Nº de faltas"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.faltas}"
+                                 required="true" size="18" />
+                    --------------------------------------------------------
+                    <p:outputLabel for="semanas_assiduidade" value="Assiduidade - Nº Semanas" />
+                    <p:inputText id="semanas_assiduidade" label="Assiduidade - Nº Semanas"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.semanas_assiduidade}"
+                                 required="true" size="18" />
+                    <p:inputText id="assiduidade_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.total_assiduidade}" readonly="true"/>
+                    <p:outputLabel for="reunioes_comparec" value="Nº de comparecimento em reuniões" />
+                    <p:inputText id="reunioes_comparec" label="Nº de comparecimento em reuniões"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.reunioes_comparec}"
+                                 required="true" size="18" />
+                    --------------------------------------------------------
+                    <p:outputLabel for="reunioes_num" value="Nº de reuniões" />
+                    <p:inputText id="reunioes_num" label="Nº de reuniões"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.reunioes_num}"
+                                 required="true" size="18" />
+                    <p:inputText id="reunioes_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.total_reunioes}" readonly="true"/>
+                    <p:outputLabel for="docs_solicit" value="Cumprimento de prazos - Documentos solicitados" />
+                    <p:inputText id="docs_solicit" label="Cumprimento de prazos - Documentos solicitados"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.docs_solicit}"
+                                 required="true" size="18" />
+                    --------------------------------------------------------
+                    <p:outputLabel for="docs_naoentreg" value="Cumprimento de prazos - Documentos não entregues" />
+                    <p:inputText id="docs_naoentreg" label="Cumprimento de prazos - Documentos não entregues"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.docs_naoentreg}"
+                                 required="true" size="18" />
+                    <p:inputText id="docs_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.total_docs}" readonly="true"/>
+                    <p:outputLabel for="aulas_semanais" value="Cumprimento de horários - Nº de aulas semanais" />
+                    <p:inputText id="aulas_semanais" label="Cumprimento de horários - Nº de aulas semanais"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.aulas_semanais}"
+                                 required="true" size="18" />
+                    --------------------------------------------------------
+                    <p:outputLabel for="aulas_atrasos" value="Cumprimento de horários - Nº de atrasos" />
+                    <p:inputText id="aulas_atrasos" label="Cumprimento de horários - Nº de atrasos"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.aulas_atrasos}"
+                                 required="true" size="18" />
+                    --------------------------------------------------------
+                    <p:outputLabel for="aulas_semanas" value="Cumprimento de horários - Nº de semanas" />
+                    <p:inputText id="aulas_semanas" label="Cumprimento de horários - Nº de semanas"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.aulas_semanas}"
+                                 required="true" size="18" />
+                    <p:inputText id="horarios_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.total_horarios}" readonly="true"/>
+                    <p:outputLabel for="bonus_aulassem" value="Bônus - Nº de Aulas Semanais" />
+                    <p:inputText id="bonus_aulassem" label="Bônus - Nº de Aulas Semanais"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.bonus_aulassem}"
+                                 required="true" size="18" />
+                    --------------------------------------------------------
+                    <p:outputLabel for="bonus_faltas" value="Bônus - Nº de Faltas Aula" />
+                    <p:inputText id="bonus_faltas" label="Bônus - Nº de Faltas Aula"
+                                 value="#{pontuacaoControlador.pontuacaoSendoIncluida.bonus_faltas}"
+                                 required="true" size="18" />
+                    <p:inputText id="bonus_total" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.total_bonus}" readonly="true"/>
+                    <p:outputLabel for="grupo4_subtotal" value="Subtotal"/>
+                    --------------------------------------------------------
+                    <p:inputText id="grupo4_subtotal" value="#{pontosCalculadosControlador.pontosCalculadosSendoIncluidos.grupo4_subtotal}" readonly="true"/>
+                </p:panelGrid>
+            </p:panel>
+                <!--tooltips para todos os campos do grupo 4-->
+                <p:tooltip for="carga_horaria" value="Carga horária" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="faltas" value="Número de faltas" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="semanas_assiduidade" value="Quantidade de semanas no ano" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="reunioes_comparec" value="Número de reuniões comparecidas durante o ano, no período de 01/10 a 30/9" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="reunioes_num" value="Número de reuniões realizadas durante o ano, no período de 01/10 a 30/9" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="docs_solicit" value="Entrega no prazo de planos de ensino, resultado de avaliações, relatórios, etc. no período de 01/10 a 30/9" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="docs_naoentreg" value="Documentos não entregues dentro do prazo" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="aulas_semanais" value="Número de aulas na semana" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="aulas_atrasos" value="Número de atrasos" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="aulas_semanas" value="Número de semanas no ano" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="bonus_aulassem" value="Número de aulas semanais" showEffect="fade" hideEffect="fade" />
+                <p:tooltip for="bonus_faltas" value="Número de faltas-aula" showEffect="fade" hideEffect="fade" />
+                
+            </p>
+                
+                <p:commandButton value="Enviar dados"
+                                     ajax="false"
+                                     action="#{etecControlador.criarEtec()}" /> 
+
+        </h:form>
+        </p:layoutUnit>
+        </ui:define>
+        <!--</p:layout>-->
+    <!--</h:body>-->
+    </ui:composition>
+</html>
+

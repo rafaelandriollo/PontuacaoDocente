@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="/pontuacao.xhtml">
+    
+        <!--
+    <h:head>
+        <title>Cadastrar Docente - Sistema de Pontuação Docente</title>
+    </h:head>
+    <h:body>
+        -->
+        <!--<p:layout fullPage="true">-->
+        <ui:define name="centro">
+        <p:layoutUnit position="center">
+        <h:form>
+            <p:messages />
+            <p:panel header="Forneça os dados da instituição:">
+                <p:panelGrid columns="2" id="cadEtec">
+                    <p:outputLabel for="codigo" value="Codigo" />
+                    <p:inputText id="codigo" label="Codigo"
+                                 value="#{etecControlador.etecSendoIncluida.codigo}"
+                                 required="true" size="30" />
+                    <p:outputLabel for="nome" value="Nome" />
+                    <p:inputText id="nome" label="Nome"
+                                 value="#{etecControlador.etecSendoIncluida.nome}"
+                                 required="true" size="50" />
+                    <p:outputLabel for="endereco" value="Endereço" />
+                    <p:inputText id="endereco" label="Endereço"
+                                 value="#{etecControlador.etecSendoIncluida.endereco}"
+                                 required="true" size="100" />
+                    <p:outputLabel for="cidade" value="Cidade" />
+                    <p:inputText id="cidade" label="Cidade"
+                                 value="#{etecControlador.etecSendoIncluida.cidade}"
+                                 required="true" size="30" />
+                    <p:outputLabel for="cep" value="CEP" />
+                    <p:inputText id="cep" label="CEP"
+                                 value="#{etecControlador.etecSendoIncluida.CEP}"
+                                 required="true" size="50" />
+                    <p:outputLabel for="estado" value="Estado" />
+                    <p:inputText id="estado" label="Estado"
+                                 value="#{etecControlador.etecSendoIncluida.estado}"
+                                 required="true" size="30" />
+                    <p:outputLabel for="telefone" value="Telefone" />
+                    <p:inputText id="telefone" label="Telefone"
+                                 value="#{etecControlador.etecSendoIncluida.telefone}"
+                                 required="true" size="50" />
+                    
+                    <p:commandButton value="Enviar dados"
+                                     ajax="false"
+                                     update="cadEtec" 
+                                     action="#{etecControlador.criarEtec()}" /> 
+                    
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+        </p:layoutUnit>
+        </ui:define>
+        <!--</p:layout>-->
+    <!--</h:body>-->
+    </ui:composition>
+</html>
+

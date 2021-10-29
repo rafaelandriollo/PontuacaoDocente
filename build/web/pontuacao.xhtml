@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Sistema de Pontuação Docente</title>
+    </h:head>
+    <h:body>
+        <p:layout fullPage="true">
+            
+            <ui:insert name="cabecalho">
+                <p:layoutUnit position="north" size="50" closable="true" collapsible="true">
+                    <p:graphicImage url="images/icone.jpg" width="32" height="32"/> <font color="black" font-style="bold" family="sans-serif" size="4">Sistema de Pontuação Docente - 2013</font>
+                </p:layoutUnit>
+            </ui:insert>
+            
+            <ui:insert name="rodape">
+                <p:layoutUnit position="south" size="30" closable="true" collapsible="true">
+                    Sistema de Pontuação Docente 2013
+                </p:layoutUnit>
+            </ui:insert>
+
+            <ui:insert name="menu">
+                <p:layoutUnit position="west" size="180" header="Menu" collapsible="true">
+                    <p:menu>
+                        
+                        <p:menuitem value="Início" url="/faces/pontuacao.xhtml" />
+                        
+                        <p:submenu label="Cadastro">
+                            <p:menuitem value="Docentes" url="#{docenteControlador.novoDocente()}"/>
+                            <p:menuitem value="Pontuação" url="/faces/cadpontuacao.xhtml" />
+                        </p:submenu>
+                        
+                        <p:submenu label="Relatórios">
+                            <p:menuitem value="Pontuação Individual" url="/faces/dlgindividual.xhtml"/>
+                            <p:menuitem value="Classificação Geral" url="/faces/relgeral.xhtml"/>
+                        </p:submenu>
+                        
+                        <p:submenu label="Área Administrativa">
+                            <!--<p:menuitem value="Definir constantes de cálculo" url="#" />-->
+                            <p:menuitem value="Cadastrar Etec" url="#{etecControlador.novaEtec()}"/>
+                            <p:menuitem value="Listar / Editar Docentes" url="/faces/listardocentes.xhtml" />
+                            <p:menuitem value="Excluir Docente" url="/faces/deldocente.xhtml"/>
+                        </p:submenu>
+                        
+                        <p:submenu label="Minha Conta">
+                            <p:menuitem value="Alterar Dados" url="/faces/minhaconta.xhtml"/>
+                            <p:menuitem value="Sair" url="index.xhtml"/>
+                        </p:submenu>
+
+                    </p:menu>
+                </p:layoutUnit>
+            </ui:insert>
+            
+            <ui:insert name="centro">
+                <p:layoutUnit position="center">
+                    <p><font size="5">Bem-vindo(a)</font></p>
+                    <p:panel id="panelDocente" header="Docente">
+                    <h:panelGrid columns="2">
+                        <p:graphicImage url="/images/semfoto.jpg" width="100"/>
+				<h:panelGrid id="docente" columns="2">
+                                        <h:outputText value="Nome: " style="font-size: medium"/>
+					<h:outputText styleClass="outputLabel"
+                                                      value="#{login.docenteLogado.nome}" style="font-size: medium"/>
+					
+					<h:outputText value="Área " style="font-size: medium"/>
+					<h:outputText  styleClass="outputLabel"
+                                                       value="#{login.docenteLogado.area}" style="font-size: medium"/>
+					
+					<h:outputText value="Formação: " style="font-size: medium"/>
+					<h:outputText styleClass="outputLabel"
+                                                      value="#{login.docenteLogado.formacao}" style="font-size: medium"/>
+					
+					<h:outputText value="Email: " style="font-size: medium"/>
+					<h:outputText styleClass="outputLabel"
+                                                      value="#{login.docenteLogado.email}" style="font-size: medium"/>
+					
+					<h:outputText value="Etec: " style="font-size: medium"/>
+					<h:outputText styleClass="outputLabel"
+                                                      value="#{login.docenteLogado.numetec}" style="font-size: medium"/>
+					
+					<h:outputText />
+					<h:outputText />
+				</h:panelGrid>
+                    </h:panelGrid>
+			
+            </p:panel><br/><br/><br/><br/><br/><br/>
+            <p:panel id="panelAvisos1" header="Quadro de Avisos" footer="Postado em 03/01/01">
+                    <h:panelGrid columns="2">
+                        <p:graphicImage url="/images/info.png" width="50"/>
+				<h:panelGrid id="docente" columns="2">
+                                    
+                                    <p><b>Prazo Final de Entrega de Documentos</b></p>
+                                    <p>Atenção docentes, só serão considerados documentos entregues até o dia 15/10, documentos com data após essa, só serão contabilizados na pontuação do ano seguinte, conforme descrito na Portaria da CEETEPS.</p>
+                               
+				</h:panelGrid>
+                    </h:panelGrid>
+			
+            </p:panel>
+                    <p:panel id="panelAvisos2" footer="Postado em 02/01/01">
+                    <h:panelGrid columns="2">
+                        <p:graphicImage url="/images/warning.png" width="50"/>
+				<h:panelGrid id="docente" columns="2">
+                                    
+                                    <p><b>Manutenção</b></p>
+                                    <p>Atenção usuários do Sistema de Pontuaçao, o servidor entrará em manutenção durante os dias 20 a 30 do mês de setembro, impossibilitando a entrada no sistema.<br/>A manutenção terá como objetivo otimizar o servidor para o início das pontuações nesse ano. Desculpem-nos pelo transtorno.</p>
+                               
+				</h:panelGrid>
+                    </h:panelGrid>
+			
+            </p:panel>
+                    <p:panel id="panelAvisos3" footer="Postado em 01/01/01">
+                    <h:panelGrid columns="2">
+                        <p:graphicImage url="/images/info.png" width="50"/>
+				<h:panelGrid id="docente" columns="2">
+                                    
+                                    <p><b>Entrega de documentos</b></p>
+                                    <p>Atenção Docentes, para a realização da pontuação docente, é necessário que todos seus documentos referentes a atualizações profissionais, entre outros, sejam entregues a secretaria o mais rápido possível.</p>
+                               
+				</h:panelGrid>
+                    </h:panelGrid>
+			
+            </p:panel>
+                </p:layoutUnit>
+            </ui:insert>
+
+            </p:layout>
+    </h:body>
+</html>
+

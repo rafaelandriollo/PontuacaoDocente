@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/pontuacao.xhtml">
+    
+        <!--
+    <h:head>
+        <title>Cadastrar Docente - Sistema de Pontuação Docente</title>
+    </h:head>
+    <h:body>
+        -->
+        <!--<p:layout fullPage="true">-->
+        <ui:define name="centro">
+        <p:layoutUnit position="center">
+        <p:messages />
+        <h:form target="_blank">
+            <p:panel header="Pontuação Individual">
+                
+                    <h:outputText value="Selecione o docente a ser exibida a pontuação:"/><br/>
+                    <h:outputLabel/>
+                    <p align="right">
+                        <p:selectOneMenu id="docenteSelecionado" label="Nome" effect="fade" value="docenteSelec">
+                        <f:selectItem itemLabel="Selecione um docente"/>
+                        <f:selectItems value="#{docenteControlador.listagemDeDocentes()}" var="player" itemLabel="#{player.nome}" itemValue="#{player}"/> 
+                    </p:selectOneMenu>
+                    </p>
+                    <br/>
+                    <p:commandButton value="OK" action="/faces/relindividual.xhtml" ajax="false"/>        
+                
+            </p:panel>
+        </h:form>   
+        </p:layoutUnit>
+        </ui:define>
+        <!--</p:layout>-->
+    <!--</h:body>-->
+    </ui:composition>
+</html>
+

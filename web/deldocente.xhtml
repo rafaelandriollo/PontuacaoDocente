@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/pontuacao.xhtml">
+   <!-- <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+   -->
+        <ui:define name="centro">
+            <p:layoutUnit position="center">
+                <p>Por favor, confira se é realmente quem deseja excluir. Essa ação não pode ser desfeita.</p>
+                <h:form>
+                <p:dialog id="escolherDocente" header="Selecionar Docente a ser excluído" widgetVar="dlg1" visible="true" closable="false" resizable="false" maximizable="false" modal="true" appendToBody="true">
+                
+                <h:outputText value="Selecione o docente a ser excluído:"/><br/><br/>
+                <p:selectOneMenu id="docenteSelecionado" label="Nome" effect="fade" value="docenteSelec">
+                    <f:selectItem itemLabel="Selecione um docente"/>
+                    <f:selectItems value="#{docenteControlador.listagemDeDocentes()}" var="player" itemLabel="#{player.nome}" itemValue="#{player}"/> 
+                </p:selectOneMenu>
+                <br/><br/>
+                <p:commandButton value="OK" oncomplete="dlg1.hide()"/>
+                
+            </p:dialog>
+                    <p:panel id="panelDocente" header="Confirme os Dados">
+                    <h:panelGrid columns="2">
+                        <p:graphicImage url="/images/semfoto.jpg" width="100"/>
+				<h:panelGrid id="docente" columns="2">
+                                    
+					<h:outputText value="Nome: " />
+					<h:outputText styleClass="outputLabel"
+                                                      value="#{player.nome}" />
+					
+					<h:outputText value="Área " />
+					<h:outputText  styleClass="outputLabel"
+                                                       value="#{player.area}"/>
+					
+					<h:outputText value="Formação: " />
+					<h:outputText styleClass="outputLabel"
+                                                      value="#{player.formacao}" />
+					
+					<h:outputText value="Email: " />
+					<h:outputText styleClass="outputLabel"
+                                                      value="#{player.email}" />
+					
+					<h:outputText value="Etec: " />
+					<h:outputText styleClass="outputLabel"
+                                                      value="#{player.numetec}" />
+					
+					<h:outputText />
+					<h:outputText />
+				</h:panelGrid>
+                    </h:panelGrid>
+            </p:panel>
+                    <p>
+                    <p:commandButton value="Excluir" action="/faces/cadpontuacao.xhtml"/>
+                    </p>
+            </h:form>
+                
+            </p:layoutUnit>
+        </ui:define>
+    </ui:composition>
+   <!-- </h:body>-->
+</html>
+
